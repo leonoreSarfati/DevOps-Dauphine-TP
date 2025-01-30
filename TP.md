@@ -35,6 +35,9 @@ Nous allons créer les ressources suivantes à l'aide de Terraform :
 - un compte utilisateur de la base de données
 
 1. Commencer par créer le bucket GCS (Google Cloud Storage) qui servira à stocker le state Terraform.
+Réponse: Un bucket existait déjà car j'en avais déjà créer un dans les tp précédents avec la commande suivante : gsutil mb gs://${PROJECT_ID}-tfstate
+![bucket](./images/bucket.png)
+
 2. Définir les éléments de base nécessaires à la bonne exécution de terraform : utiliser l'exemple sur le [repo du cours](https://github.com/aballiet/devops-dauphine-2024/tree/main/exemple/cloudbuild-terraform) si besoin pour vous aider
 3. Afin de créer la base de données, utiliser la documentation [SQL Database](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database) et enfin un [SQL User](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_user)
    1. Pour `google_sql_database`, définir `name="wordpress"` et `instance="main-instance"`
@@ -47,8 +50,20 @@ Nous allons créer les ressources suivantes à l'aide de Terraform :
       }
       ```
 4. Lancer `terraform plan`, vérifier les changements puis appliquer les changements avec `terraform apply`
+Réponse: J'ai effectué les commandes suivantes: terrform init, puis terraform plan et une fois avoir valider les changements j'ai fait terraform apply qui m'a donné le résultat suivant: Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+
 5. Vérifier que notre utilisateur existe bien : https://console.cloud.google.com/sql/instances/main-instance/users (veiller à bien séléctionner le projet GCP sur lequel vous avez déployé vos ressources)
+Réponse: Oui, le user wordpress existe
+![sql_user](./images/sql_user.png)
+
 6. Rendez-vous sur https://console.cloud.google.com/sql/instances/main-instance/databases. Quelles sont les base de données présentes sur votre instance `main-instance` ? Quels sont les types ?
+Réponse: Il y a:
+information_schema --> Système
+mysql --> Système 
+performance_schema --> Système
+sys --> Système
+wordpress --> Utilisateur
+![sql_databases](./images/sql_databases.png)
 
 ## Partie 2 : Docker
 
