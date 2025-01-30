@@ -249,7 +249,11 @@ Notre but, ne l'oublions pas est de déployer wordpress sur Cloud Run puis Kuber
 ## BONUS : Partie 4
 
 1. Utiliser Cloud Build pour appliquer les changements d'infrastructure
+***Réponse:*** Pour cela il faut donner l'autorisation à CloudBuild d'accéder à notre repo sur github puis créer un déclencheur afin d'effectuer les changements dès qu'un push est fait sur dev ou prod (en ajoutant ces étapes dans le cloudbuild.yaml)
 2. Quelles critiques du TP pouvez vous faire ? Quels sont les éléments redondants de notre configuration ?
-   1. Quels paramètres avons nous dû recopier plusieurs fois ? Comment pourrions nous faire pour ne pas avoir à les recopier ?
-   2. Quel outil pouvons nous utiliser pour déployer Wordpress sur Kubernetes ? Faites les changements nécessaires dans votre code Terraform.
-   3. Comment pourrions nous enlever le mot de passe en clair dans notre code Terraform ? Quelle ressource Kubernetes pouvons nous utiliser pour le stocker ? Faites les changements nécessaires dans votre code Terraform.
+   1. Quels paramètres avons nous dû recopier plusieurs fois ? Comment pourrions nous faire pour ne pas avoir à les recopier ?  
+***Réponse:*** Nous avons dû recopier plusieurs fois toutes les variables WORDPRESS_DB_... Nous aurions pu créer un fichier variables.tf et terraform.tfvar pour définir des variables réutilisables. Ainsi si les valeurs changent il suffit de les modifier dans le fichier variable.
+   2. Quel outil pouvons nous utiliser pour déployer Wordpress sur Kubernetes ? Faites les changements nécessaires dans votre code Terraform.  
+***Réponse:*** On aurait pu utiliser Helm Charts pour déployer Wordpress.
+   3. Comment pourrions nous enlever le mot de passe en clair dans notre code Terraform ? Quelle ressource Kubernetes pouvons nous utiliser pour le stocker ? Faites les changements nécessaires dans votre code Terraform.  
+   ***Réponse:*** On aurait pu utiliser Kubernetes Secrets.
