@@ -1,0 +1,9 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  script: |
+    docker build -t us-central1-docker.pkg.dev/devops-449120/website-tools/image-wordpress:0.1 .
+  automapSubstitutions: true  
+images:
+  - 'us-central1-docker.pkg.dev/devops-449120/website-tools/image-wordpress:0.1'
+
+
