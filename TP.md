@@ -155,10 +155,12 @@ Notre but, ne l'oublions pas est de déployer wordpress sur Cloud Run puis Kuber
 ### Configurer l'adresse IP de la base MySQL utilisée par Wordpress
 
 1. Rendez vous sur : https://console.cloud.google.com/sql/instances/main-instance/connections/summary?
-   L'instance de base données dispose d'une `Adresse IP publique`. Nous allons nous servir de cette valeur pour configurer notre image docker Wordpress qui s'y connectera.
+   L'instance de base données dispose d'une `Adresse IP publique`. Nous allons nous servir de cette valeur pour configurer notre image docker Wordpress qui s'y connectera.  
+   ***Réponse:*** 34.136.148.219
 
 2. Reprendre le Dockerfile de la [Partie 2](#partie-2--docker) et le modifier pour que `WORDPRESS_DB_HOST` soit défini avec l'`Adresse IP publique` de notre instance de base de donnée.
-3. Reconstruire notre image docker et la pousser sur notre Artifact Registry en utilisant cloud build
+3. Reconstruire notre image docker et la pousser sur notre Artifact Registry en utilisant cloud build. 
+***Réponse:*** on peut refaire un submit
 
 ### Déployer notre image docker sur Cloud Run
 
@@ -185,14 +187,18 @@ Notre but, ne l'oublions pas est de déployer wordpress sur Cloud Run puis Kuber
    }
    ```
 
-   ☝️ Vous aurez besoin d'activer l'API : `run.googleapis.com` pour créer la ressource de type `google_cloud_run_service`. Faites en sorte que l'API soit activé avant de créer votre instance Cloud Run 😌
+   ☝️ Vous aurez besoin d'activer l'API : `run.googleapis.com` pour créer la ressource de type `google_cloud_run_service`. Faites en sorte que l'API soit activé avant de créer votre instance Cloud Run 😌. 
+   ***Réponse:*** j'ai lancé cette commande pour m'assurer d'activer l'API: `gcloud services enable run.googleapis.com --project=devops-449120` 
 
-   Appliquer les changements sur votre projet gcp avec les commandes terraform puis rendez vous sur https://console.cloud.google.com/run pendant le déploiement.
+   Appliquer les changements sur votre projet gcp avec les commandes terraform puis rendez vous sur  pendant le déploiement.
 
 2. Observer les journaux de Cloud Run (logs) sur : https://console.cloud.google.com/run/detail/us-central1/serveur-wordpress/logs.
-   1. Véirifer la présence de l'entrée `No 'wp-config.php' found in /var/www/html, but 'WORDPRESS_...' variables supplied; copying 'wp-config-docker.php' (WORDPRESS_DB_HOST WORDPRESS_DB_PASSWORD WORDPRESS_DB_USER)`
+   1. Véirifer la présence de l'entrée `No 'wp-config.php' found in /var/www/html, but 'WORDPRESS_...' variables supplied; copying 'wp-config-docker.php' (WORDPRESS_DB_HOST WORDPRESS_DB_PASSWORD WORDPRESS_DB_USER)`. 
+   ***Réponse:*** On retrouve bien cette erreur
+   ![log_error](images/log_error.png)
    2. Au bout de 5 min, que se passe-t-il ? 🤯🤯🤯
-   3. Regarder le resultat de votre commande `terraform apply` et observer les logs de Cloud Run
+   3. Regarder le resultat de votre commande `terraform apply` et observer les logs de Cloud Run. 
+   ***Réponse:*** Voici la fin de mon apply : Apply complete! Resources: 2 added, 0 changed, 1 destroyed.
 
 3. Autoriser toutes les adresses IP à se connecter à notre base MySQL (sous réserve d'avoir l'utilisateur et le mot de passe évidemment)
    1. Pour le faire, exécuter la commande
@@ -205,6 +211,7 @@ Notre but, ne l'oublions pas est de déployer wordpress sur Cloud Run puis Kuber
    1. Aller sur : https://console.cloud.google.com/run/detail/us-central1/serveur-wordpress/metrics?
    2. Cliquer sur l'URL de votre Cloud Run : similaire à https://serveur-wordpress-oreldffftq-uc.a.run.app
    3. Que voyez vous ? 🙈
+   ![wordpress_cloudbuild](images/wordpress_cloudbuild.png)
 
 
 6. Afin d'avoir un déploiement plus robuste pour l'entreprise et économiser les coûts du service CloudSQL, nous allons déployer Wordpress sur Kubernetes
@@ -229,9 +236,13 @@ Notre but, ne l'oublions pas est de déployer wordpress sur Cloud Run puis Kuber
    3. Déployer wordpress ainsi qu'une base de donnée MySQL sur le cluster GKE, vous pouvez vous aider de ChatGPT ou de la documentation officielle. Exemple de prompt: 
    ```
    Give me the terraform code to deploy wordpress on kubernetes using kubernetes provider. I want to use MySQL.
-   ```
-
+   ```. 
+   ***Réponse:*** Après avoir modifié le main.tf et relancé les commandes terraform j'ai ce résultat: Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
+   J'ai ensuite utilisé cette commande pour obtenir l'IP: `kubectl get svc -n wordpress` 
    4. Rendez vous sur l'adresse IP publique du service kubernetes Wordpress et vérifiez que Wordpress fonctionne 🔥
+   ***Réponse:*** Au lien suivant http://34.68.88.144 je vois:
+   ![wordpress_with_ip](images/wordpress_with_ip.png)
+
 
 
 ## BONUS : Partie 4
