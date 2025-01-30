@@ -236,7 +236,8 @@ Notre but, ne l'oublions pas est de déployer wordpress sur Cloud Run puis Kuber
    3. Déployer wordpress ainsi qu'une base de donnée MySQL sur le cluster GKE, vous pouvez vous aider de ChatGPT ou de la documentation officielle. Exemple de prompt: 
    ```
    Give me the terraform code to deploy wordpress on kubernetes using kubernetes provider. I want to use MySQL.
-   ```. 
+   ```
+   
    ***Réponse:*** Après avoir modifié le main.tf et relancé les commandes terraform j'ai ce résultat: Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
    J'ai ensuite utilisé cette commande pour obtenir l'IP: `kubectl get svc -n wordpress` 
    4. Rendez vous sur l'adresse IP publique du service kubernetes Wordpress et vérifiez que Wordpress fonctionne 🔥
